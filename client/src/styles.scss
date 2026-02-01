@@ -1,16 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Mobile-first: safe area for notched devices */
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-pulse-dark text-pulse-text antialiased;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
+
+/* Safe area for notched devices */
 .safe-area-top { padding-top: env(safe-area-inset-top, 0); }
 .safe-area-bottom { padding-bottom: env(safe-area-inset-bottom, 0); }
 
-/* Hide horizontal scrollbar on category strip, keep scroll */
+/* Hide scrollbars but keep scroll functionality */
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+/* Custom scrollbar for main content */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-pulse-darker;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-pulse-border rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-pulse-muted;
+}
+
+/* Glassmorphism effect */
+.glass {
+  @apply bg-pulse-card/80 backdrop-blur-xl border border-pulse-border/50;
+}
+
+/* Gradient text */
+.gradient-text {
+  @apply bg-gradient-to-r from-pulse-accent to-cyan-400 bg-clip-text text-transparent;
+}
+
+/* Card hover effect */
+.card-hover {
+  @apply transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-pulse-accent/10;
+}
+
+/* Status indicator dot */
+.status-dot {
+  @apply w-2 h-2 rounded-full animate-pulse-slow;
+}
+
+.status-dot.success {
+  @apply bg-pulse-success shadow-lg shadow-pulse-success/50;
+}
+
+.status-dot.warning {
+  @apply bg-pulse-warning shadow-lg shadow-pulse-warning/50;
+}
+
+.status-dot.danger {
+  @apply bg-pulse-danger shadow-lg shadow-pulse-danger/50;
+}
+
+/* Button styles */
+.btn-primary {
+  @apply px-6 py-3 bg-pulse-accent hover:bg-pulse-accent-light text-white font-medium rounded-xl transition-all duration-300 hover:shadow-lg hover:shadow-pulse-accent/30;
+}
+
+.btn-secondary {
+  @apply px-6 py-3 bg-pulse-card hover:bg-pulse-card-hover text-pulse-text border border-pulse-border font-medium rounded-xl transition-all duration-300;
+}
+
+/* Category badge */
+.category-badge {
+  @apply inline-flex items-center px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-md;
+}
+
+.category-badge.transport { @apply bg-blue-500/20 text-blue-400; }
+.category-badge.economy { @apply bg-emerald-500/20 text-emerald-400; }
+.category-badge.education { @apply bg-amber-500/20 text-amber-400; }
+.category-badge.society { @apply bg-purple-500/20 text-purple-400; }
+.category-badge.politics { @apply bg-red-500/20 text-red-400; }
+.category-badge.culture { @apply bg-pink-500/20 text-pink-400; }
+.category-badge.sports { @apply bg-orange-500/20 text-orange-400; }
+.category-badge.volunteers { @apply bg-cyan-500/20 text-cyan-400; }
+
+/* Image overlay gradient */
+.img-overlay {
+  @apply absolute inset-0 bg-gradient-to-t from-pulse-dark via-pulse-dark/50 to-transparent;
+}
+
+/* Slider navigation */
+.slider-dot {
+  @apply w-2 h-2 rounded-full bg-white/30 transition-all duration-300;
+}
+
+.slider-dot.active {
+  @apply w-6 bg-pulse-accent;
+}
+
+/* Focus styles for accessibility */
+a:focus-visible,
+button:focus-visible {
+  @apply outline-none ring-2 ring-pulse-accent ring-offset-2 ring-offset-pulse-dark;
+}
+
+/* Loading skeleton */
+.skeleton {
+  @apply animate-pulse bg-pulse-border rounded;
 }

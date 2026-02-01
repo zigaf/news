@@ -1,25 +1,31 @@
-export interface Category {
-  id: string;
-  slug: string;
-  name: string;
-}
-
-export interface Article {
-  id: string;
+export interface NewsArticle {
+  id: number;
   title: string;
   excerpt: string;
-  category: Category;
-  imageUrl: string | null;
+  content: string;
+  imageUrl: string;
+  category: string;
+  categoryName: string;
   publishedAt: Date;
-  slug: string;
+  readTime: number;
+  author: string;
+  isFeatured?: boolean;
+  views?: number;
+  hasFlag?: boolean;
 }
 
-export const CATEGORIES: Category[] = [
-  { id: '1', slug: 'suspilnist', name: 'Суспільство' },
-  { id: '2', slug: 'podii', name: 'Події' },
-  { id: '3', slug: 'politika', name: 'Політика' },
-  { id: '4', slug: 'ekonomika', name: 'Економіка' },
-  { id: '5', slug: 'sport', name: 'Спорт' },
-  { id: '6', slug: 'kultura', name: 'Культура' },
-  { id: '7', slug: 'biznes', name: 'Бізнес' },
-];
+export interface Category {
+  id: number;
+  name: string;
+  slug: string;
+  icon?: string;
+  color?: string;
+}
+
+export interface CityStatus {
+  alert: boolean;
+  electricity: boolean;
+  water: boolean;
+  transport: boolean;
+  lastUpdate: Date;
+}

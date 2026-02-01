@@ -1,38 +1,72 @@
-<header class="bg-slate-900 text-white shadow-md sticky top-0 z-50 safe-area-top">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6">
-    <div class="flex items-center justify-between min-h-14 sm:min-h-16">
-      <a routerLink="/" class="flex items-center gap-2 min-h-[44px] min-w-[44px] -ml-2 items-center justify-center md:justify-start" (click)="closeMenu()">
-        <span class="text-lg sm:text-xl font-bold tracking-tight">Новости Суми</span>
+<header class="glass sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo -->
+      <a routerLink="/" class="flex items-center gap-3 group" (click)="closeMenu()">
+        <div
+          class="w-10 h-10 bg-gradient-to-br from-pulse-accent to-cyan-500 rounded-xl flex items-center justify-center shadow-lg shadow-pulse-accent/30 group-hover:shadow-pulse-accent/50 transition-all">
+          <span class="text-white font-bold text-lg">P</span>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-lg font-bold text-white tracking-tight">PULSE</span>
+          <span class="text-[10px] text-pulse-accent uppercase tracking-[0.2em] -mt-1">Sumshchyny</span>
+        </div>
       </a>
-      <button
-        type="button"
-        class="md:hidden min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg -mr-2 touch-manipulation active:bg-slate-800"
-        (click)="toggleMenu()"
-        [attr.aria-expanded]="menuOpen"
-        aria-label="Меню"
-      >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-          @if (menuOpen) {
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          } @else {
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-          }
-        </svg>
-      </button>
+
+      <!-- Desktop Navigation -->
       <nav class="hidden md:flex items-center gap-1">
-        <a routerLink="/" routerLinkActive="bg-slate-800" [routerLinkActiveOptions]="{ exact: true }"
-           class="min-h-[44px] px-4 flex items-center rounded-lg hover:bg-slate-800 transition-colors">Головна</a>
-        <a routerLink="/category/suspilnist" routerLinkActive="bg-slate-800"
-           class="min-h-[44px] px-4 flex items-center rounded-lg hover:bg-slate-800 transition-colors">Новини</a>
+        @for (item of navItems; track item.slug) {
+        <a [routerLink]="item.route" routerLinkActive="bg-pulse-card text-white"
+          [routerLinkActiveOptions]="{ exact: item.exact }"
+          class="px-4 py-2 text-pulse-text-secondary hover:text-white hover:bg-pulse-card/50 rounded-xl transition-all duration-300 text-sm font-medium">
+          {{ item.name }}
+        </a>
+        }
       </nav>
+
+      <!-- Right Actions -->
+      <div class="flex items-center gap-3">
+        <!-- Notification Bell -->
+        <button type="button"
+          class="relative w-10 h-10 flex items-center justify-center rounded-xl bg-pulse-card hover:bg-pulse-card-hover border border-pulse-border transition-all duration-300"
+          aria-label="Сповіщення">
+          <svg class="w-5 h-5 text-pulse-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+          </svg>
+          <span class="absolute top-1 right-1 w-2 h-2 bg-pulse-danger rounded-full animate-pulse"></span>
+        </button>
+
+        <!-- Mobile Menu Button -->
+        <button type="button"
+          class="md:hidden w-10 h-10 flex items-center justify-center rounded-xl bg-pulse-card hover:bg-pulse-card-hover border border-pulse-border transition-all"
+          (click)="toggleMenu()" [attr.aria-expanded]="menuOpen" aria-label="Меню">
+          <svg class="w-5 h-5 text-pulse-text" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            @if (menuOpen) {
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            } @else {
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            }
+          </svg>
+        </button>
+      </div>
     </div>
+
+    <!-- Mobile Menu -->
     @if (menuOpen) {
-      <nav class="md:hidden py-4 border-t border-slate-700 animate-fade-in">
-        <ul class="flex flex-col gap-1">
-          <li><a routerLink="/" (click)="closeMenu()" class="block min-h-[44px] px-4 flex items-center rounded-lg hover:bg-slate-800">Головна</a></li>
-          <li><a routerLink="/category/suspilnist" (click)="closeMenu()" class="block min-h-[44px] px-4 flex items-center rounded-lg hover:bg-slate-800">Новини</a></li>
-        </ul>
-      </nav>
+    <nav class="md:hidden py-4 border-t border-pulse-border/30 animate-fade-in">
+      <ul class="flex flex-col gap-1">
+        @for (item of navItems; track item.slug) {
+        <li>
+          <a [routerLink]="item.route" (click)="closeMenu()" routerLinkActive="bg-pulse-card text-white"
+            [routerLinkActiveOptions]="{ exact: item.exact }"
+            class="block px-4 py-3 text-pulse-text-secondary hover:text-white hover:bg-pulse-card/50 rounded-xl transition-all">
+            {{ item.name }}
+          </a>
+        </li>
+        }
+      </ul>
+    </nav>
     }
   </div>
 </header>

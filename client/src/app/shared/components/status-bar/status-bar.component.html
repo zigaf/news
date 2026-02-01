@@ -1,0 +1,27 @@
+<div class="bg-pulse-darker border-b border-pulse-border/30 py-2 px-4 safe-area-top">
+    <div class="max-w-7xl mx-auto flex items-center justify-center gap-6 text-xs sm:text-sm">
+        <!-- Alert Status -->
+        <div class="flex items-center gap-2">
+            <span class="status-dot" [ngClass]="alertClass"></span>
+            <span class="text-pulse-text-secondary">{{ alertText }}</span>
+        </div>
+
+        <!-- Electricity -->
+        <div class="flex items-center gap-2">
+            <span class="status-dot" [ngClass]="status.electricity ? 'success' : 'danger'"></span>
+            <span class="text-pulse-text-secondary">Світло {{ status.electricity ? 'є' : 'немає' }}</span>
+        </div>
+
+        <!-- Water -->
+        <div class="hidden sm:flex items-center gap-2">
+            <span class="status-dot" [ngClass]="status.water ? 'success' : 'danger'"></span>
+            <span class="text-pulse-text-secondary">Вода {{ status.water ? 'є' : 'немає' }}</span>
+        </div>
+
+        <!-- Transport -->
+        <div class="hidden md:flex items-center gap-2">
+            <span class="status-dot" [ngClass]="status.transport ? 'success' : 'warning'"></span>
+            <span class="text-pulse-text-secondary">Транспорт {{ status.transport ? 'працює' : 'обмежено' }}</span>
+        </div>
+    </div>
+</div>

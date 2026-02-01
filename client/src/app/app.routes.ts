@@ -6,5 +6,9 @@ import { ArticleComponent } from './pages/article/article.component';
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'category/:slug', component: CategoryComponent },
-  { path: 'article/:slug', component: ArticleComponent },
+  { path: 'article/:id', component: ArticleComponent },
+  { path: 'alerts', redirectTo: '', pathMatch: 'full' },
+  { path: 'map', redirectTo: '', pathMatch: 'full' },
+  { path: 'contacts', redirectTo: '', pathMatch: 'full' },
+  { path: '**', redirectTo: '', pathMatch: 'full' },
 ];

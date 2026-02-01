@@ -1,19 +1,34 @@
 <section class="animate-fade-in">
-  <a routerLink="/" class="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 text-sm mb-6 min-h-[44px] touch-manipulation">
-    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
-    На головну
-  </a>
-  <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">{{ category.name }}</h1>
-  <p class="text-slate-600 text-sm sm:text-base mb-6 sm:mb-8">Новини за розділом «{{ category.name }}»</p>
-  @if (articles.length === 0) {
-    <p class="text-slate-500 py-8">Поки що немає публікацій у цьому розділі.</p>
-  } @else {
-    <ul class="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+    <!-- Header -->
+    <div class="flex items-center gap-4 mb-8">
+      <a routerLink="/"
+        class="w-10 h-10 flex items-center justify-center rounded-xl bg-pulse-card hover:bg-pulse-card-hover border border-pulse-border transition-all">
+        <svg class="w-5 h-5 text-pulse-text" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </a>
+      <div>
+        <h1 class="text-2xl sm:text-3xl font-bold text-white">{{ categoryName }}</h1>
+        <p class="text-pulse-text-secondary">{{ articles.length }} новин у цій категорії</p>
+      </div>
+    </div>
+
+    <!-- Articles Grid -->
+    @if (articles.length > 0) {
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       @for (article of articles; track article.id) {
-        <li>
-          <app-news-card [article]="article" />
-        </li>
+      <app-news-card [article]="article" [showExcerpt]="true" />
       }
-    </ul>
-  }
+    </div>
+    } @else {
+    <!-- Empty State -->
+    <div class="text-center py-20">
+      <div class="text-6xl mb-4">📭</div>
+      <h2 class="text-xl font-semibold text-white mb-2">Новин поки немає</h2>
+      <p class="text-pulse-text-secondary mb-6">У цій категорії ще немає новин</p>
+      <a routerLink="/" class="btn-primary">На головну</a>
+    </div>
+    }
+  </div>
 </section>

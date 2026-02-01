@@ -1,24 +1,123 @@
-<article class="animate-fade-in max-w-3xl mx-auto">
-  <a routerLink="/" class="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 text-sm mb-6 min-h-[44px] touch-manipulation">
-    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
-    На головну
-  </a>
-  <header class="mb-6 sm:mb-8">
-    <span class="inline-block text-xs font-medium text-amber-700 bg-amber-100 px-2 py-1 rounded mb-3">{{ article.category.name }}</span>
-    <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 leading-tight">{{ article.title }}</h1>
-    <time [attr.datetime]="article.publishedAt | date:'yyyy-MM-dd'" class="block mt-3 text-sm text-slate-500">{{ article.publishedAt | date:'d MMMM y, HH:mm' }}</time>
-  </header>
-  @if (article.imageUrl) {
-    <div class="aspect-video w-full bg-slate-200 rounded-xl overflow-hidden mb-6 sm:mb-8">
-      <img [src]="article.imageUrl" [alt]="article.title" class="w-full h-full object-cover" />
+@if (article) {
+<article class="animate-fade-in">
+  <!-- Hero Image -->
+  <div class="relative h-[40vh] min-h-[300px] max-h-[500px]">
+    <img [src]="article.imageUrl" [alt]="article.title" class="w-full h-full object-cover">
+    <div class="img-overlay"></div>
+
+    <!-- Back Button -->
+    <button (click)="goBack()"
+      class="absolute top-6 left-6 w-12 h-12 flex items-center justify-center rounded-full glass hover:bg-pulse-card transition-all">
+      <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+
+    <!-- Share Button -->
+    <button (click)="shareArticle()"
+      class="absolute top-6 right-6 w-12 h-12 flex items-center justify-center rounded-full glass hover:bg-pulse-card transition-all">
+      <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Content -->
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 -mt-20 relative z-10">
+    <div class="bg-pulse-card border border-pulse-border rounded-2xl p-6 sm:p-10">
+      <!-- Category -->
+      <span class="category-badge" [ngClass]="article.category">
+        {{ article.categoryName }}
+      </span>
+
+      <!-- Title -->
+      <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mt-4 mb-6 leading-tight">
+        {{ article.title }}
+      </h1>
+
+      <!-- Meta -->
+      <div
+        class="flex flex-wrap items-center gap-4 text-pulse-text-secondary text-sm mb-8 pb-8 border-b border-pulse-border/50">
+        <div class="flex items-center gap-2">
+          <div
+            class="w-8 h-8 rounded-full bg-gradient-to-br from-pulse-accent to-cyan-500 flex items-center justify-center">
+            <span class="text-white text-xs font-bold">{{ article.author.charAt(0) }}</span>
+          </div>
+          <span>{{ article.author }}</span>
+        </div>
+        <span class="w-1 h-1 rounded-full bg-pulse-muted"></span>
+        <span>{{ formatDate(article.publishedAt) }}</span>
+        <span class="w-1 h-1 rounded-full bg-pulse-muted"></span>
+        <span>{{ article.readTime }} хв читання</span>
+        @if (article.views) {
+        <span class="w-1 h-1 rounded-full bg-pulse-muted"></span>
+        <div class="flex items-center gap-1">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+          </svg>
+          <span>{{ article.views }}</span>
+        </div>
+        }
+      </div>
+
+      <!-- Article Content -->
+      <div class="prose prose-invert prose-lg max-w-none" [innerHTML]="article.content"></div>
+
+      <!-- Tags / Share -->
+      <div class="mt-10 pt-8 border-t border-pulse-border/50">
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div class="flex items-center gap-2">
+            <span class="text-pulse-muted text-sm">Поділитися:</span>
+            <button
+              class="w-10 h-10 flex items-center justify-center rounded-xl bg-pulse-card-hover hover:bg-pulse-accent border border-pulse-border hover:border-pulse-accent transition-all">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
+              </svg>
+            </button>
+            <button
+              class="w-10 h-10 flex items-center justify-center rounded-xl bg-pulse-card-hover hover:bg-blue-600 border border-pulse-border hover:border-blue-600 transition-all">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+              </svg>
+            </button>
+          </div>
+
+          <a routerLink="/" class="btn-secondary text-sm">
+            ← Назад до новин
+          </a>
+        </div>
+      </div>
     </div>
-  } @else {
-    <div class="aspect-video w-full bg-gradient-to-br from-slate-200 to-slate-300 rounded-xl flex items-center justify-center mb-6 sm:mb-8">
-      <span class="text-slate-500 text-6xl font-serif">С</span>
+  </div>
+
+  <!-- Related Articles -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+    <h2 class="text-xl font-bold text-white mb-6">Схожі новини</h2>
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      @for (relatedArticle of relatedArticles; track relatedArticle.id) {
+      <app-news-card [article]="relatedArticle" />
+      }
     </div>
-  }
-  <div class="prose prose-slate prose-lg max-w-none">
-    <p class="text-slate-700 leading-relaxed text-base sm:text-lg">{{ article.excerpt }}</p>
-    <p class="mt-4 text-slate-600 leading-relaxed">Тут буде повний текст статті. Зараз відображається лише опис. Контент підтягуватиметься з API пізніше.</p>
   </div>
 </article>
+} @else {
+<!-- Loading State -->
+<div class="max-w-3xl mx-auto px-4 sm:px-6 py-12">
+  <div class="animate-pulse">
+    <div class="h-64 bg-pulse-border rounded-2xl mb-6"></div>
+    <div class="h-8 bg-pulse-border rounded w-3/4 mb-4"></div>
+    <div class="h-4 bg-pulse-border rounded w-1/2 mb-8"></div>
+    <div class="space-y-3">
+      <div class="h-4 bg-pulse-border rounded"></div>
+      <div class="h-4 bg-pulse-border rounded"></div>
+      <div class="h-4 bg-pulse-border rounded w-5/6"></div>
+    </div>
+  </div>
+</div>
+}
