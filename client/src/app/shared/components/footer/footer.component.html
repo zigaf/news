@@ -1,0 +1,27 @@
+<footer class="bg-slate-800 text-slate-300 mt-auto safe-area-bottom">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-10">
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      <div>
+        <h3 class="text-white font-semibold text-lg mb-3">Новости Суми</h3>
+        <p class="text-sm leading-relaxed">Актуальні новини міста Суми та Сумської області. Події, суспільство, культура, спорт.</p>
+      </div>
+      <div>
+        <h3 class="text-white font-semibold text-lg mb-3">Розділи</h3>
+        <ul class="space-y-2 text-sm">
+          <li><a routerLink="/" class="hover:text-white transition-colors">Головна</a></li>
+          <li><a routerLink="/category/suspilnist" class="hover:text-white transition-colors">Суспільство</a></li>
+          <li><a routerLink="/category/podii" class="hover:text-white transition-colors">Події</a></li>
+          <li><a routerLink="/category/kultura" class="hover:text-white transition-colors">Культура</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-white font-semibold text-lg mb-3">Контакти</h3>
+        <p class="text-sm">м. Суми, Сумська область</p>
+        <p class="text-sm mt-1">info&#64;sumy-news.example</p>
+      </div>
+    </div>
+    <div class="mt-8 pt-6 border-t border-slate-700 text-center text-sm text-slate-500">
+      © {{ currentYear }} Новости Суми. Усі права захищено.
+    </div>
+  </div>
+</footer>
